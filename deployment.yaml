@@ -1,0 +1,36 @@
+#deployment
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: delay-deployment
+  labels:
+    app: delay
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: delay
+  template:
+    metadata:
+      labels:
+        app: delay
+    spec:
+      containers:
+      - name: delay
+        image: harmanpreet27/apidelay
+        ports:
+        - containerPort: 8000
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: delay-service
+  labels:
+    app: delay
+spec:
+  selector:
+    app: delay
+  ports:
+  - protocol: TCP
+    port: 8000
+    targetPort: 8000
